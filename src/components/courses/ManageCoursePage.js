@@ -1,12 +1,11 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
 import { loadCourses as notCallThisLoadCourses } from '../../redux/actions/courseActions'
 import { loadAuthors as notCallThisLoadAuthors } from '../../redux/actions/authorActions'
 import PropTypes from 'prop-types'
 
-class ManageCoursePage extends React.Component {
-  async componentDidMount() {
-    const { courses, authors, loadCourses, loadAuthors } = this.props
+function ManageCoursePage({ courses, authors, loadCourses, loadAuthors }) {
+  useEffect(async () => {
     if (courses.length === 0) {
       loadCourses().catch((error) => {
         alert('Loading courses failed: ' + error)
@@ -19,15 +18,12 @@ class ManageCoursePage extends React.Component {
         alert('Loading authors failed: ' + error)
       }
     }
-  }
-
-  render() {
-    return (
-      <>
-        <h2>Manage Course</h2>
-      </>
-    )
-  }
+  }, []) //the empty array means the effect will run once when the component mounts
+  return (
+    <>
+      <h2>Manage Course</h2>
+    </>
+  )
 }
 
 ManageCoursePage.propTypes = {
