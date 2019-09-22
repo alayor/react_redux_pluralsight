@@ -7,7 +7,7 @@ import { bindActionCreators } from 'redux'
 import CourseList from './CourseList'
 
 class CoursesPage extends React.Component {
-  componentDidMount() {
+  async componentDidMount() {
     const { courses, authors, actions } = this.props
     if (courses.length === 0) {
       actions.loadCourses().catch((error) => {
@@ -15,9 +15,11 @@ class CoursesPage extends React.Component {
       })
     }
     if (authors.length === 0) {
-      actions.loadAuthors().catch((error) => {
+      try {
+        await actions.loadAuthors()
+      } catch (error) {
         alert('Loading authors failed: ' + error)
-      })
+      }
     }
   }
 
