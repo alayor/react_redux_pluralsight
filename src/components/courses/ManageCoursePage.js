@@ -23,7 +23,20 @@ function ManageCoursePage({ courses, authors, loadCourses, loadAuthors, ...props
       }
     }
   }, []) //the empty array means the effect will run once when the component mounts
-  return <CourseForm course={course} errors={errors} authors={authors} />
+
+  function handleChange(event) {
+    const {
+      name,
+      value,
+    } = event.target /* this destructure avoids the event getting garbage collected 
+    so that it's available within the nested setCourse callback*/
+    setCourse((prevCourse) => ({
+      ...prevCourse,
+      [name]: name === 'authorId' ? parseInt(value, 10) : value,
+    }))
+  }
+
+  return <CourseForm course={course} errors={errors} authors={authors} onChange={handleChange} />
 }
 
 ManageCoursePage.propTypes = {
