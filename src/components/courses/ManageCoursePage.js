@@ -6,7 +6,15 @@ import PropTypes from 'prop-types'
 import CourseForm from './CourseForm'
 import { newCourse } from '../../../tools/mockData'
 
-function ManageCoursePage({ courses, authors, loadCourses, loadAuthors, saveCourse, ...props }) {
+function ManageCoursePage({
+  courses,
+  authors,
+  loadCourses,
+  loadAuthors,
+  saveCourse,
+  history,
+  ...props
+}) {
   const [course, setCourse] = useState({ ...props.course })
   const [errors] = useState({})
   useEffect(() => {
@@ -17,7 +25,9 @@ function ManageCoursePage({ courses, authors, loadCourses, loadAuthors, saveCour
     }
     if (authors.length === 0) {
       try {
-        loadAuthors()
+        loadAuthors().catch((error) => {
+          alert('Loading authors failed: ' + error)
+        })
       } catch (error) {
         alert('Loading authors failed: ' + error)
       }
@@ -38,7 +48,9 @@ function ManageCoursePage({ courses, authors, loadCourses, loadAuthors, saveCour
 
   function handleSave(event) {
     event.preventDefault()
-    saveCourse(course)
+    saveCourse(course).then(() => {
+      history.push('/courses')
+    })
   }
 
   return (
@@ -59,6 +71,7 @@ ManageCoursePage.propTypes = {
   loadCourses: PropTypes.func.isRequired,
   loadAuthors: PropTypes.func.isRequired,
   saveCourse: PropTypes.func.isRequired,
+  history: PropTypes.object.isRequired,
 }
 
 function mapStateToProps(state) {
