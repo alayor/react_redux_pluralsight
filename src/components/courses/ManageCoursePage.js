@@ -23,7 +23,7 @@ function ManageCoursePage({
 
   useEffect(() => {
     if (courses.length === 0) {
-      loadCourses().catch((error) => {
+      loadCourses().catch(error => {
         alert('Loading courses failed: ' + error)
       })
     } else {
@@ -31,7 +31,7 @@ function ManageCoursePage({
     }
     if (authors.length === 0) {
       try {
-        loadAuthors().catch((error) => {
+        loadAuthors().catch(error => {
           alert('Loading authors failed: ' + error)
         })
       } catch (error) {
@@ -46,21 +46,36 @@ function ManageCoursePage({
       value,
     } = event.target /* this destructure avoids the event getting garbage collected 
     so that it's available within the nested setCourse callback*/
-    setCourse((prevCourse) => ({
+    setCourse(prevCourse => ({
       ...prevCourse,
       [name]: name === 'authorId' ? parseInt(value, 10) : value,
     }))
   }
 
+  function formIsValid() {
+    const { title, authorId, category } = course
+    const errors = {}
+
+    if (!title) errors.title = 'Title is required.'
+    if (!authorId) errors.authorId = 'authorId is required.'
+    if (!category) errors.category = 'category is required.'
+
+    setErrors(errors)
+    return Object.keys(errors).length === 0
+  }
+
   function handleSave(event) {
     event.preventDefault()
+    if (!formIsValid()) {
+      return
+    }
     setSaving(true)
     saveCourse(course)
       .then(() => {
         toast.success('Course saved')
         history.push('/courses')
       })
-      .catch((error) => {
+      .catch(error => {
         setSaving(false)
         setErrors({ onSave: error.message })
       })
@@ -91,7 +106,7 @@ ManageCoursePage.propTypes = {
 }
 
 export function getCourseBySlug(courses, slug) {
-  return courses.find((course) => course.slug === slug) || null
+  return courses.find(course => course.slug === slug) || null
 }
 
 function mapStateToProps(state, ownProps) {
