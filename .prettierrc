@@ -6,5 +6,4 @@
   "jsxBracketSameLine": true,
   "semi": false,
   "parser": "babylon",
-  "arrowParens": "always"
 }
