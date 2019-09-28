@@ -57,7 +57,7 @@ function ManageCoursePage({
     const errors = {}
 
     if (!title) errors.title = 'Title is required.'
-    if (!authorId) errors.authorId = 'authorId is required.'
+    if (!authorId) errors.author = 'authorId is required.'
     if (!category) errors.category = 'category is required.'
 
     setErrors(errors)
