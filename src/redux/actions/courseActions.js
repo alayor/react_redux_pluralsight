@@ -11,7 +11,6 @@ export function createCourseSuccess(course) {
 }
 
 export function updateCourseSuccess(course) {
-  debugger
   return { type: types.UPDATE_COURSE_SUCCESS, course }
 }
 
@@ -24,6 +23,7 @@ export function loadCourses() {
         dispatch(loadCoursesSuccess(courses))
       })
       .catch(error => {
+        dispatch(apiCallError(error))
         throw error
       })
   }
