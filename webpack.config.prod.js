@@ -29,7 +29,7 @@ module.exports = {
       'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
       'process.env.API_URL': JSON.stringify('http://localhost:3001'),
     }),
-    // It addes reference to the js bundles into the index.html file
+    // It adds reference to the js bundles into the index.html file
     new HtmlWebpackPlugin({
       template: 'src/index.html',
       favicon: 'src/favicon.ico',
